@@ -242,11 +242,11 @@ def anonymize_data(
     raw=pd.DataFrame({
 
         "Nama_Operator":
-        ["Niken Ayu Anggraini"],
+        ["Budi Santoso"],
 
 
         "NIK_Petugas":
-        ["2313020235"],
+        ["3273012345"],
 
 
         "Suhu":
