@@ -387,21 +387,6 @@ left,right = st.columns(
 # 5. INPUT WHAT-IF
 # ==========================================
 
-
-with left:
-
-
-
-    st.subheader(
-    "🧪 What-If Intervention"
-    )
-
-
-
-    # ==========================================
-# 5. INPUT WHAT-IF (SLIDER)
-# ==========================================
-
 with left:
 
 
