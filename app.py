@@ -387,7 +387,9 @@ left,right = st.columns(
 # 5. INPUT WHAT-IF
 # ==========================================
 
+
 with left:
+
 
 
     st.subheader(
@@ -395,17 +397,12 @@ with left:
     )
 
 
-    suhu = st.slider(
 
-        "🌡️ Suhu Mesin (°C)",
+    suhu = st.number_input(
 
-        min_value=0.0,
+        "Suhu Mesin (°C)",
 
-        max_value=250.0,
-
-        value=85.0,
-
-        step=1.0
+        value=85.0
 
     )
 
@@ -413,84 +410,14 @@ with left:
 
     getaran = st.slider(
 
-        "🔩 Getaran Mesin (mm/s)",
+        "Getaran Mesin",
 
-        min_value=0.0,
+        0.0,
 
-        max_value=50.0,
+        50.0,
 
-        value=7.0,
+        7.0
 
-        step=0.1
-
-    )
-
-
-
-    st.markdown(
-    """
-    **Parameter Simulasi**
-    
-    - Suhu normal training: 60-100°C
-    - Getaran normal training: 2-10 mm/s
-    """
-    )
-
-
-
-    # robustness check
-
-    warning = validate_input(
-        suhu,
-        getaran
-    )
-
-
-    for w in warning:
-
-        st.warning(w)
-
-
-
-    st.divider()
-
-
-
-    st.subheader(
-    "🔐 Data Privacy"
-    )
-
-
-    raw_data,clean_data = anonymize_data(
-
-        suhu,
-
-        getaran
-
-    )
-
-
-
-    st.write(
-    "Data sebelum anonymization"
-    )
-
-
-    st.dataframe(
-        raw_data,
-        use_container_width=True
-    )
-
-
-
-    st.write(
-    "Data setelah anonymization"
-    )
-
-
-    st.dataframe(
-        clean_data,
-        use_container_width=True
     )
 
 
