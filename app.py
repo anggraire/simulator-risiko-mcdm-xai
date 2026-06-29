@@ -14,33 +14,44 @@ st.set_page_config(
     layout="wide"
 )
 
-# Kustomisasi CSS untuk tema warna pastel yang lebih estetik dan modern
+# Perbaikan CSS: Memaksa warna teks tetap gelap meskipun sistem berada di Dark Mode
 st.markdown("""
 <style>
-    /* Background utama aplikasi */
-    html, body, [data-testid="stAppViewContainer"] {
-        background-color: #FBEFEF;
+    /* Background utama & Header Streamlit */
+    html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
+        background-color: #FBEFEF !important;
         font-family: 'Segoe UI', Arial, sans-serif;
     }
     
-    /* Header styling */
-    h1, h2, h3 {
-        color: #4A3B3B;
+    /* Memaksa semua elemen teks berwarna gelap agar kontras tinggi */
+    h1, h2, h3, h4, h5, h6, p, label, span, .stMarkdown {
+        color: #4A3B3B !important;
+    }
+
+    /* Spesifik untuk label slider dan widget */
+    div[data-testid="stWidgetLabel"] p {
+        color: #4A3B3B !important;
+        font-weight: 600;
+    }
+    
+    /* Memperbaiki teks di dalam Tabs */
+    button[data-baseweb="tab"] p {
+        color: #4A3B3B !important;
     }
 
     /* Efek Kartu Modern (Floating Cards) untuk Kolom */
     div[data-testid="column"] {
-        background: white;
-        padding: 24px;
-        border-radius: 16px;
-        border: 1px solid #FFE2E2;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        background: white !important;
+        padding: 24px !important;
+        border-radius: 16px !important;
+        border: 1px solid #FFE2E2 !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
         margin-bottom: 20px;
     }
     
     /* Percantik tampilan dataframe */
     .stDataFrame {
-        border: 1px solid #F5CBCB;
+        border: 1px solid #F5CBCB !important;
         border-radius: 8px;
         overflow: hidden;
     }
@@ -121,7 +132,6 @@ def anonymize_data(suhu, getaran):
 
 
 def calculate_saw(matrix):
-    # Urutan kolom di matrix: [Risiko (Cost), Efisiensi (Benefit)]
     risk_norm = matrix[:, 0].min() / matrix[:, 0]
     efficiency_norm = matrix[:, 1] / matrix[:, 1].max()
     
@@ -144,7 +154,6 @@ st.title("⚙️ AI Risk Simulator - Final UAS")
 st.caption("Integrated Machine Learning + XAI + MCDM SAW + MLOps Dashboard")
 st.divider()
 
-# Layout utama menggunakan pembagian kolom otomatis yang responsif
 left, right = st.columns([1, 1.4], gap="large")
 
 
@@ -171,7 +180,6 @@ with left:
         step=0.1
     )
 
-    # Validasi input input secara real-time
     warning = validate_input(suhu, getaran)
     for w in warning:
         st.warning(w)
@@ -181,7 +189,6 @@ with left:
     st.subheader("🔐 Data Privacy & Anonymization")
     raw_data, clean_data = anonymize_data(suhu, getaran)
 
-    # Menggunakan tabs agar layout data privacy terlihat lebih rapi dan ringkas
     tab1, tab2 = st.tabs(["📄 Raw Data Log", "✨ Anonymized Data"])
     with tab1:
         st.dataframe(raw_data, use_container_width=True, hide_index=True)
@@ -205,7 +212,7 @@ drift, drift_status = check_drift(input_data)
 
 alternatif = ["Mesin A", "Mesin B", "Mesin C"]
 matrix = np.array([
-    [prediction, 85],  # Nilai prediksi risiko real-time disuntikkan ke Mesin A
+    [prediction, 85],  
     [35, 75],
     [15, 60]
 ])
@@ -225,11 +232,8 @@ result = pd.DataFrame({
 
 with right:
     st.subheader("📊 Prediction Result")
-    
-    # Progress bar risiko mesin
     st.progress(prediction / 100)
 
-    # Status Alert Maker yang dinamis berdasarkan level risiko
     if prediction < 30:
         st.success(f"**Low Risk Zone**: {prediction:.2f}%")
     elif prediction < 70:
@@ -237,35 +241,28 @@ with right:
     else:
         st.error(f"**High Risk Critical Zone**: {prediction:.2f}%")
 
-    # Informasi metrik performa model & interval kepercayaan dalam bentuk kolom ringkas
     m1, m2 = st.columns(2)
     with m1:
         st.metric(label="Confidence Interval", value=f"{lower:.1f}% - {upper:.1f}%")
     with m2:
         st.metric(label="Model Error (RMSE)", value=f"{MODEL_RMSE:.2f}%")
 
-    # Status Data Drift dari sisi MLOps
     st.info(drift_status)
     st.divider()
 
-    # Tampilan Rangking Rekomendasi SAW
     st.subheader("🏆 Multi-Criteria Recommendation (SAW)")
     st.dataframe(result, use_container_width=True, hide_index=True)
     st.divider()
 
-    # Visualisasi Kontribusi Fitur Menggunakan Tema Warna Selaras
     st.subheader("🔍 Explainable AI (Feature Contribution)")
     contribution = explain_prediction(scaled_data)
 
     fig, ax = plt.subplots(figsize=(7, 2.5), facecolor='white')
     ax.set_facecolor('white')
     
-    # Menggunakan warna #F5CBCB untuk kontribusi positif dan abu-abu lembut untuk negatif
     colors = ['#F5CBCB' if c >= 0 else '#D1C4C4' for c in contribution]
-    
     bars = ax.barh(["Suhu", "Getaran"], contribution, color=colors, height=0.55)
     
-    # Merapikan dekorasi grafik agar terlihat clean & minimalis
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.spines['left'].set_color('#4A3B3B')
