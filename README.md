@@ -1,25 +1,40 @@
 # ⚙️ AI Risk Simulator - Final UAS
 
-## Integrated Machine Learning + Explainable AI (XAI) + MCDM SAW + MLOps
+## Machine Learning + XAI + MCDM SAW + MLOps
 
-AI Risk Simulator merupakan aplikasi simulasi berbasis **Machine Learning** yang digunakan untuk memprediksi tingkat risiko kegagalan mesin berdasarkan parameter sensor, yaitu:
+AI Risk Simulator adalah aplikasi berbasis **Machine Learning** untuk memprediksi tingkat risiko kegagalan mesin berdasarkan parameter:
 
 - 🌡️ Suhu Mesin
 - 🔩 Getaran Mesin
 
-Sistem ini mengintegrasikan pipeline lengkap mulai dari input pengguna, preprocessing data, prediksi model ML, monitoring data, sistem pendukung keputusan (MCDM SAW), hingga penjelasan hasil prediksi menggunakan pendekatan Explainable AI.
-
-Project ini dikembangkan sebagai implementasi akhir praktikum **Pemodelan dan Simulasi Minggu 15-16 (MLOps & Final Integration).**
+Sistem ini mengintegrasikan proses **Machine Learning Prediction, Explainable AI (XAI), Sistem Pendukung Keputusan MCDM SAW, dan MLOps** dalam satu dashboard Streamlit.
 
 
----
+## 🚀 Fitur Utama
 
-# 🚀 Fitur Sistem
+✅ **Machine Learning Prediction**  
+Melakukan prediksi skor risiko kegagalan mesin menggunakan model yang telah dilatih.
 
-## 1. Machine Learning Prediction
+✅ **Model Persistence (MLOps)**  
+Model dan scaler disimpan dalam file `.joblib` sehingga aplikasi dapat melakukan prediksi tanpa training ulang.
 
-Sistem menggunakan model regresi untuk memprediksi:
+✅ **What-If Simulation**  
+Pengguna dapat mengubah nilai suhu dan getaran untuk melihat perubahan risiko secara langsung.
 
-**Skor Risiko Kegagalan Mesin (%)**
+✅ **Data Drift Monitoring**  
+Mendeteksi perubahan data input yang berbeda dari data training.
 
-Alur:
+✅ **Input Validation**  
+Menangani input ekstrem agar sistem tetap stabil.
+
+✅ **Privacy & Anonymization**  
+Menghapus data sensitif sebelum diproses.
+
+✅ **MCDM SAW Recommendation**  
+Menghasilkan ranking alternatif berdasarkan nilai risiko dan efisiensi.
+
+✅ **Explainable AI (XAI)**  
+Menampilkan kontribusi fitur yang memengaruhi hasil prediksi.
+
+✅ **Uncertainty Estimation**  
+Memberikan rentang kepercayaan berdasarkan nilai RMSE model.
