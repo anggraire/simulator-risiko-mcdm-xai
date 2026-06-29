@@ -130,14 +130,31 @@ with col_right:
     st.markdown("#### 🏆 Hasil Perhitungan Urutan Alternatif (MCDM - SAW)")
     st.dataframe(df_rekomendasi.style.format({"Skor Risiko": "{:.2f}", "Skor Performa (SAW)": "{:.4f}"}), use_container_width=True)
     
-    # INTEGRASI MODUL TRANSPARANSI ASLI (SHAP WATERFALL PLOT)
+    # ====================================================================
+    # INTEGRASI MODUL TRANSPARANSI (SIMULASI SHAP WATERFALL MATPLOTLIB)
+    # ====================================================================
     st.markdown("### 🔍 Mengapa Hasilnya Demikian? (Transparansi XAI)")
+    st.caption("Diagram di bawah memaparkan pembuktian kontribusi kuantitatif dari setiap parameter sensor terhadap hasil prediksi.")
+
+    # Menghitung kontribusi linear asli (SHAP Value = Nilai Terpilih * Koefisien Model)
+    coef = model_ml.coef_
+    suhu_contrib = features_scaled[0][0] * coef[0]
+    getaran_contrib = features_scaled[0][1] * coef[1]
     
-    explainer = shap.Explainer(model_ml)
-    shap_values = explainer(features_scaled)
-    shap_values.feature_names = ["Suhu Mesin", "Getaran Mesin"]
+    contrib_values = [suhu_contrib, getaran_contrib]
+    feature_names = ["Suhu Mesin", "Getaran Mesin"]
     
+    # Render grafik
     fig, ax = plt.subplots(figsize=(7, 3))
-    shap.plots.waterfall(shap_values[0], show=False)
+    colors = ['#FF0051' if val >= 0 else '#008BFB' for val in contrib_values]
+    bars = ax.barh(feature_names, contrib_values, color=colors, height=0.4)
+    ax.axvline(x=0, color='#64748B', lw=1, ls='--')
+    ax.set_xlabel('Dampak Matriks Fitur (SHAP Value)')
+    
+    for bar in bars:
+        width = bar.get_width()
+        ax.text(width + (0.1 if width >= 0 else -1.5), bar.get_y() + bar.get_height()/2,
+                f'{width:+.2f}', va='center', ha='left', fontsize=9, fontweight='bold')
+                
     plt.tight_layout()
     st.pyplot(fig)
