@@ -398,11 +398,17 @@ with left:
 
 
 
-    suhu = st.number_input(
+    suhu = st.slider(
 
-        "Suhu Mesin (°C)",
+        "🌡️ Suhu Mesin (°C)",
 
-        value=85.0
+        min_value=0.0,
+
+        max_value=250.0,
+
+        value=85.0,
+
+        step=1.0
 
     )
 
@@ -410,13 +416,15 @@ with left:
 
     getaran = st.slider(
 
-        "Getaran Mesin",
+        "🔩 Getaran Mesin (mm/s)",
 
-        0.0,
+        min_value=0.0,
 
-        50.0,
+        max_value=50.0,
 
-        7.0
+        value=7.0,
+
+        step=0.1
 
     )
 
