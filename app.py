@@ -24,13 +24,14 @@ div[data-testid="column"] { background-color: #ffffff; padding: 22px; border-rad
 # ===============================================
 @st.cache_resource
 def init_models():
-    model = joblib.load("models/model_risiko_v1.joblib")
-    scaler = joblib.load("models/scaler_risiko_v1.joblib")
+    # Menghapus teks "models/" karena file berada di direktori yang sama dengan app.py
+    model = joblib.load("model_risiko_v1.joblib")
+    scaler = joblib.load("scaler_risiko_v1.joblib")
     return model, scaler
 
 model_ml, scaler_risiko = init_models()
 train_mean_ref = 80.0  
-baseline_risk = 45.0   
+baseline_risk = 45.0  
 
 # ===============================================
 # 3. FRONTEND & INTERACTION (WHAT-IF SLIDER)
