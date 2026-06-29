@@ -19,19 +19,78 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-html, body, [data-testid="stAppViewContainer"]{
-background-color:#F8FAFC;
-font-family:Arial;
+html, body, [data-testid="stAppViewContainer"] {
+    background-color: #FBEFEF;
+    font-family: Arial;
 }
 
+[data-testid="stHeader"] {
+    background-color: #FBEFEF;
+}
 
-div[data-testid="column"]{
+[data-testid="stSidebar"] {
+    background-color: #FFE2E2;
+}
 
-background:white;
-padding:20px;
-border-radius:15px;
-border:1px solid #ddd;
+div[data-testid="column"] {
+    background: #FFE2E2;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #F5CBCB;
+}
 
+/* Sliders */
+[data-testid="stSlider"] > div > div > div > div {
+    background-color: #C0535A !important;
+}
+
+/* Progress bar */
+[data-testid="stProgress"] > div > div > div {
+    background-color: #C0535A !important;
+}
+
+/* Metric labels */
+[data-testid="stMetricLabel"] {
+    color: #7B2D35;
+}
+
+/* Dataframe */
+[data-testid="stDataFrame"] {
+    border: 1px solid #F5CBCB;
+    border-radius: 8px;
+}
+
+/* Divider */
+hr {
+    border-color: #F5CBCB !important;
+}
+
+/* Warning / success / error / info boxes - slight tint */
+[data-testid="stAlert"] {
+    border-radius: 10px;
+}
+
+/* Subheaders */
+h2, h3 {
+    color: #7B2D35;
+}
+
+/* Caption text */
+[data-testid="stCaptionContainer"] {
+    color: #9E5560;
+}
+
+/* Buttons */
+button[kind="primary"] {
+    background-color: #C0535A !important;
+    border-color: #C0535A !important;
+    color: white !important;
+}
+
+/* Checkbox and radio */
+[data-testid="stCheckbox"] label,
+[data-testid="stRadio"] label {
+    color: #7B2D35;
 }
 
 </style>
@@ -354,7 +413,6 @@ def explain_prediction(
 
 
 
-
 # ==========================================
 # 4. HEADER
 # ==========================================
@@ -378,7 +436,6 @@ st.divider()
 left,right = st.columns(
 [1,2]
 )
-
 
 
 
@@ -488,9 +545,6 @@ with left:
 
 
 
-
-
-
 # ==========================================
 # 6. PIPELINE ML
 # ==========================================
@@ -525,7 +579,6 @@ lower,upper = uncertainty_range(
 
 
 
-
 # Drift
 
 drift,drift_status = check_drift(
@@ -533,7 +586,6 @@ drift,drift_status = check_drift(
     input_data
 
 )
-
 
 
 
@@ -597,7 +649,6 @@ result=result.sort_values(
 ascending=False
 
 )
-
 
 
 
@@ -726,33 +777,25 @@ Confidence Range :
     )
 
 
+    # Chart with rose theme colors
+    fig, ax = plt.subplots(figsize=(7, 3))
 
-    fig,ax=plt.subplots(
+    fig.patch.set_facecolor('#FFE2E2')
+    ax.set_facecolor('#FBEFEF')
 
-        figsize=(7,3)
-
+    bars = ax.barh(
+        ["Suhu", "Getaran"],
+        contribution,
+        color=['#C0535A', '#E8848A'],
+        edgecolor='#F5CBCB',
+        linewidth=0.8
     )
 
-
-
-    ax.barh(
-
-        [
-        "Suhu",
-        "Getaran"
-        ],
-
-        contribution
-
-    )
-
-
-
-    ax.set_xlabel(
-
-        "Feature Contribution"
-
-    )
-
+    ax.set_xlabel("Feature Contribution", color='#7B2D35')
+    ax.tick_params(colors='#7B2D35')
+    ax.spines['bottom'].set_color('#F5CBCB')
+    ax.spines['left'].set_color('#F5CBCB')
+    ax.spines['top'].set_color('#F5CBCB')
+    ax.spines['right'].set_color('#F5CBCB')
 
     st.pyplot(fig)
